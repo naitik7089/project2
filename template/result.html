@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Hangman - Result</title>
+  <style>
+    body {
+      background: linear-gradient(-45deg, #141E30, #243B55, #1a1a40);
+      background-size: 400% 400%;
+      animation: gradientFlow 15s ease infinite;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+      margin: 0;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 15px #00ffff;
+    }
+
+    .win {
+      color: #3ee58d;
+      text-shadow: 0 0 10px #3ee58d;
+    }
+
+    .lose {
+      color: #ff4e4e;
+      text-shadow: 0 0 10px #ff4e4e;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background: #00ffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: black;
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    button:hover {
+      background: #0081b9;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  {% if outcome == 'win' %}
+    <h1 class="win">🎉 You Won!</h1>
+  {% else %}
+    <h1 class="lose">💀 You Lost!</h1>
+  {% endif %}
+
+  <p>The word was: <strong>{{ word }}</strong></p>
+
+  <form action="{{ url_for('home') }}">
+    <button type="submit">🔁 Play Again</button>
+  </form>
+</body>
+</html>
