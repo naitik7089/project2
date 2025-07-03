@@ -6,7 +6,6 @@ app.secret_key = 'hangman_secret'
 
 HANGMAN_EMOJIS = ['😶', '😐', '😟', '😣', '😫', '😵', '💀']
 
-# ✅ Word list with hints
 WORDS = {
     'easy': {
         'cat': 'A small domestic animal',
@@ -31,50 +30,47 @@ WORDS = {
         'soap': 'Used for washing',
     },
     'medium': {
-    'python': 'Popular programming language',
-    'flask': 'Python web framework',
-    'resume': 'A document for job applications',
-    'planet': 'Earth is one of them',
-    'rocket': 'Used to explore space',
-    'window': 'Lets light into a room',
-    'guitar': 'A musical instrument with strings',
-    'bridge': 'Used to cross rivers',
-    'mobile': 'Portable communication device',
-    'camera': 'Used to take pictures',
-    'forest': 'A large area with trees',
-    'laptop': 'Portable computer',
-    'bottle': 'Holds liquids',
-    'pencil': 'Used to write or draw',
-    'wallet': 'Holds money and cards',
-    'ticket': 'Allows entry somewhere',
-    'banana': 'A yellow fruit',
-    'doctor': 'Treats patients',
-    'museum': 'Place to see historical items',
-    'market': 'Place to buy goods',
-    'ocean': 'Large body of salt water',
-    'camera': 'Used to capture images',
-    'glasses': 'Worn to see better',
-    'charger': 'Used to power a device',
-    'kitchen': 'Room where food is cooked',
-    'battery': 'Provides electrical energy',
-    'speaker': 'Plays sound or music',
-    'notebook': 'Used for writing notes',
-    'backpack': 'Used to carry school items',
-    'blanket': 'Used to keep warm',
-    'printer': 'Produces a hard copy of documents',
-    'internet': 'Connects the world online',
-    'library': 'Place with books to read or borrow',
-    'traffic': 'Vehicles on the road',
-    'network': 'System of connections',
-    'charger': 'Powers electronic devices',
-    'remote': 'Used to control a device from distance',
-    'keyboard': 'Used to type on a computer',
-    'monitor': 'Screen for a computer',
-    'airplane': 'Flies in the sky',
-    'calendar': 'Tracks days and months',
-    'science': 'Systematic study of the universe'
-   }
-
+        'python': 'Popular programming language',
+        'flask': 'Python web framework',
+        'resume': 'A document for job applications',
+        'planet': 'Earth is one of them',
+        'rocket': 'Used to explore space',
+        'window': 'Lets light into a room',
+        'guitar': 'A musical instrument with strings',
+        'bridge': 'Used to cross rivers',
+        'mobile': 'Portable communication device',
+        'camera': 'Used to take pictures',
+        'forest': 'A large area with trees',
+        'laptop': 'Portable computer',
+        'bottle': 'Holds liquids',
+        'pencil': 'Used to write or draw',
+        'wallet': 'Holds money and cards',
+        'ticket': 'Allows entry somewhere',
+        'banana': 'A yellow fruit',
+        'doctor': 'Treats patients',
+        'museum': 'Place to see historical items',
+        'market': 'Place to buy goods',
+        'ocean': 'Large body of salt water',
+        'glasses': 'Worn to see better',
+        'charger': 'Used to power a device',
+        'kitchen': 'Room where food is cooked',
+        'battery': 'Provides electrical energy',
+        'speaker': 'Plays sound or music',
+        'notebook': 'Used for writing notes',
+        'backpack': 'Used to carry school items',
+        'blanket': 'Used to keep warm',
+        'printer': 'Produces a hard copy of documents',
+        'internet': 'Connects the world online',
+        'library': 'Place with books to read or borrow',
+        'traffic': 'Vehicles on the road',
+        'network': 'System of connections',
+        'remote': 'Used to control a device from distance',
+        'keyboard': 'Used to type on a computer',
+        'monitor': 'Screen for a computer',
+        'airplane': 'Flies in the sky',
+        'calendar': 'Tracks days and months',
+        'science': 'Systematic study of the universe'
+    },
     'hard': {
         'algorithm': 'Set of rules for solving a problem',
         'university': 'Place for higher studies',
@@ -99,27 +95,22 @@ WORDS = {
     }
 }
 
-
-# ✅ Initialize game session
 def initialize_game(difficulty):
     word, hint = random.choice(list(WORDS[difficulty].items()))
     session['word'] = word
     session['hint'] = hint
     session['difficulty'] = difficulty
 
-    # Adjust guesses and tries based on difficulty level
     if difficulty == 'easy':
-        session['guesses'] = random.sample(list(set(word)), 1)  # Reveal 1 letter
+        session['guesses'] = random.sample(list(set(word)), 1)
         session['tries_left'] = 8
     elif difficulty == 'medium':
-        session['guesses'] = random.sample(list(set(word)), 2)  # Reveal 2 letters
+        session['guesses'] = random.sample(list(set(word)), 2)
         session['tries_left'] = 6
     elif difficulty == 'hard':
-        session['guesses'] = []  # No pre-filled letter
+        session['guesses'] = []
         session['tries_left'] = 5
 
-
-# ✅ Home Route with difficulty selection
 @app.route('/', methods=['GET'])
 def home():
     return render_template('home.html')
@@ -130,7 +121,6 @@ def set_difficulty():
     initialize_game(difficulty)
     return redirect(url_for('game'))
 
-# ✅ Game Route
 @app.route('/game', methods=['GET', 'POST'])
 def game():
     if 'word' not in session:
@@ -167,12 +157,10 @@ def game():
         difficulty=session['difficulty']
     )
 
-# ✅ Result screen
 @app.route('/result/<outcome>')
 def result(outcome):
     word = session.get('word', '')
     return render_template('result.html', outcome=outcome, word=word)
 
-#✅ Run App
 if __name__ == '__main__':
     app.run(debug=True)
